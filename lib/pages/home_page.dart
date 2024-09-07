@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:go_router/go_router.dart';
 import 'package:shadow/shadow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,8 +17,7 @@ class HomePage extends StatelessWidget {
             decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/images/bg_image.jpeg"),
-                  fit: BoxFit.cover // Make image cover the entire container
-                  ),
+                  fit: BoxFit.cover),
             ),
           ),
           BackdropFilter(
@@ -143,10 +143,17 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       children: [
                         customDetailCard(
-                            img: "assets/images/coffee5.png", name: "Latte"),
+                          context: context,
+                          img: "assets/images/coffee5.png",
+                          name: "Latte",
+                          rating: 4.9,
+                        ),
                         customDetailCard(
-                            img: "assets/images/coffee4.png",
-                            name: "Flat White")
+                          context: context,
+                          img: "assets/images/coffee4.png",
+                          name: "Flat White",
+                          rating: 4.6,
+                        ),
                       ],
                     ),
                   )
@@ -169,7 +176,7 @@ Widget customCoffeeCard({
     padding: EdgeInsets.only(left: 15.w),
     child: Container(
       width: 213.w,
-      height: 265.h,
+      height: 269.h,
       decoration: BoxDecoration(
         color: Color(0xFFB4B4B4).withOpacity(0.33),
         borderRadius: BorderRadius.circular(7.r),
@@ -177,7 +184,7 @@ Widget customCoffeeCard({
       child: Column(
         children: [
           // Image.asset("assets/images/card_bg.png"),
-          SizedBox(height: 30.h),
+          SizedBox(height: 19.h),
 
           Image.asset(
             img,
@@ -230,64 +237,68 @@ Widget customCoffeeCard({
 }
 
 Widget customDetailCard({
+  required BuildContext context,
   required String img,
   required String name,
   rating,
 }) {
-  return Padding(
-    padding: EdgeInsets.only(bottom: 15.h),
-    child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
-      decoration: BoxDecoration(
-        color: Color(0xFFB4B4B4).withOpacity(0.33),
-        borderRadius: BorderRadius.circular(15.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18.sp,
-                    color: Color(0xFFCDCDCD)),
-              ),
-              Wrap(
-                children: [
-                  Text("4.9 ⭐ (458) "),
-                  SizedBox(width: 10.w),
-                  Image.asset(
-                    "assets/images/veg.png",
-                    scale: 15,
-                  )
-                ],
-              ),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 200.w),
-                child: Text(
-                  "Caffè latte is a milk coffee that is a made up of one or two shots of espresso, steamed milk and a final, thin layer of frothed milk on top.",
-                  style: TextStyle(fontSize: 10.sp, color: Color(0xFFC0C0C0)),
-                  softWrap: true,
+  return GestureDetector(
+    onTap: () => context.go('/details'),
+    child: Padding(
+      padding: EdgeInsets.only(bottom: 15.h),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
+        decoration: BoxDecoration(
+          color: Color(0xFFB4B4B4).withOpacity(0.33),
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18.sp,
+                      color: Color(0xFFCDCDCD)),
                 ),
-              )
-            ],
-          ),
-          SizedBox(
-            width: 120.w,
-            height: 120.h,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(7.r),
-              child: Image.asset(
-                img,
-                fit: BoxFit.fitWidth,
+                Wrap(
+                  children: [
+                    Text("4.9 ⭐ (458) "),
+                    SizedBox(width: 10.w),
+                    Image.asset(
+                      "assets/images/veg.png",
+                      scale: 15,
+                    )
+                  ],
+                ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 200.w),
+                  child: Text(
+                    "Caffè latte is a milk coffee that is a made up of one or two shots of espresso, steamed milk and a final, thin layer of frothed milk on top.",
+                    style: TextStyle(fontSize: 10.sp, color: Color(0xFFC0C0C0)),
+                    softWrap: true,
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              width: 120.w,
+              height: 120.h,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(7.r),
+                child: Image.asset(
+                  img,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
